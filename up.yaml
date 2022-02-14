@@ -1,0 +1,3 @@
+- import_playbook: playbook-up/docker.yaml
+- import_playbook: playbook-up/etcd.yaml
+- import_playbook: playbook-up/k3s.yaml

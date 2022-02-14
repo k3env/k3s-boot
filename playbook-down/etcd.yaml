@@ -1,0 +1,24 @@
+- name: Remove etcd
+  hosts:
+    - etcd
+  tasks:
+    - name: Remove etcd service
+      become: yes
+      ansible.builtin.file:
+        path: /etc/systemd/system/etcd.service
+        state: absent
+    - name: Reload service list
+      become: yes
+      ansible.builtin.systemd:
+        name: etcd
+        state: stopped
+        daemon_reload: yes
+    - name: Remove etcd binary
+      become: yes
+      ansible.builtin.file:
+        path: /usr/local/bin/etcd
+        state: absent
+    - name: Remove downloaded binary
+      ansible.builtin.file:
+        path: "/tmp/etcd-v{{ version }}-linux-amd64/"
+        state: absent

@@ -1,0 +1,15 @@
+[Unit]
+Description=k3s
+Documentation=https://rancher.com/docs/k3s/latest/en/
+
+[Service]
+Type=notify
+Restart=always
+RestartSec=5s
+LimitNOFILE=40000
+TimeoutStartSec=0
+
+ExecStart=/usr/local/bin/k3s {{ deployment_type }} --config=/etc/rancher/config.yaml
+
+[Install]
+WantedBy=multi-user.target

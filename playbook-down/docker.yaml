@@ -1,0 +1,33 @@
+- name: Uninstall docker
+  hosts:
+    - servers
+    - agents
+    - etcd
+  become: true
+
+  tasks:
+    - name: Uninstall required packages
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: absent
+
+    - name: Remove Docker key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: absent
+
+    - name: Remove repo
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: absent
+    - name: Install docker
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: absent
